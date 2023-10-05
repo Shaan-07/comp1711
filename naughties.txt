@@ -1,0 +1,22 @@
+data1.txt:13,Eminem,Lose Yourself,2002
+data1.txt:15,Usher,Yeah!,2004
+data1.txt:19,Leona Lewis,Bleeding Love,2008
+data1.txt:22,Rihanna & Jay-Z,Umbrella,2007
+data1.txt:36,Eminem,Without Me,2002
+data1.txt:45,OutKast,Hey Ya!,2003
+data1.txt:48,Katy Perry,I Kissed A Girl,2008
+data2.txt:52,Shakira & Wyclef Jean,Hips don't lie,2006
+data2.txt:53,50 Cent,In Da Club,2003
+data2.txt:54,Kylie Minogue,Can't Get You Out of My Head,2001
+data2.txt:55,The Black Eyed Peas,Where is the Love?,2003
+data2.txt:59,Lady GaGa,Poker Face,2009
+data2.txt:62,Justin Timberlake,Sexyback,2006
+data2.txt:63,Madonna,Hung Up,2005
+data2.txt:69,Shakira,Whenever Wherever,2002
+data2.txt:78,Flo-Rida & T-Pain,Low,2008
+data2.txt:87,Fergie,Big Girls Don't Cry,2007
+data2.txt:93,Nelly & Kelly Rowland,Dilemma,2002
+data2.txt:95,Beyonce,Crazy in Love,2003
+data2.txt:96,The Black Eyed Peas,I Gotta Feeling,2009
+eminem.txt:data1.txt:13,Eminem,Lose Yourself,2002
+eminem.txt:data1.txt:36,Eminem,Without Me,2002
