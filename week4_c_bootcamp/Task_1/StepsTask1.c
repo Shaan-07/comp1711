@@ -6,7 +6,7 @@
 typedef struct {
 	char date[11];
 	char time[6];
-	int steps[6];
+	unsigned steps;
 } FITNESS_DATA;
 
 // Define any additional variables here
@@ -55,8 +55,15 @@ int main() {
         printf("%s", line_buffer);
     }
 
+    int number_of_records = 60, i;
+    FITNESS_DATA records [] = {}; // Initialisation goes here.
+    for (i = 0; i < number_of_records; i++) {
+        printf("-------------\n");
+        printf("Date: %s\n", records[i].date);
+        printf("Time: %s\n", records[i].time);
+        printf("Steps: %u\n", records[i].steps);
+    }
+    printf("-------------\n");
     fclose(file);
     return 0;
-
-
 }
