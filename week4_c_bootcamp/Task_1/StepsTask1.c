@@ -6,7 +6,7 @@
 typedef struct {
 	char date[11];
 	char time[6];
-	int steps;
+	int steps[6];
 } FITNESS_DATA;
 
 // Define any additional variables here
@@ -43,7 +43,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-    char filename[] = "FitnessData_2023.csv";
+    char filename[] = "FitnessData_2023.csv";//code idea from read_from_file.c code done in lab session.
     FILE *file = fopen(filename, "r");// or "a", "w+", "a+", "r+"
     if (file == NULL) {
         perror("");
