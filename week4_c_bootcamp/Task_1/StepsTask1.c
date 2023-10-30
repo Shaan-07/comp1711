@@ -56,8 +56,7 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
     int buffer_size = 100;//this part was also taken from read_from_file.c done in lab session and also available on minerva.
     char line[buffer_size];
     while (fgets(line, buffer_size, file) != NULL) {
-    
-
+        
         char date[20];//this variable declaring idea code was taken from strsplit.c 
         char time[20]; 
         char steps[20];
