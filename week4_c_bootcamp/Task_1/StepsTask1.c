@@ -69,7 +69,7 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
     // Always close your file or c will chew your face off.
     fclose(file);
 
-   // printf("Number of records in file: %i\n", a);
+   printf("Number of records in file: %i\n", a);
 
     for (int i = 0; i < 3; i++) {
         printf("%s/", record[i].date);
