@@ -49,21 +49,34 @@ int main() {
         perror("");
         return 1;
     }
-    int buffer_size = 100;
-    char line_buffer[buffer_size];
-    while (fgets(line_buffer, buffer_size, file) != NULL) {
-        printf("%s", line_buffer);
+    
+FITNESS_DATA record[100];// here we are creating an array Martin sir.
+    int a = 0; 
+
+    // I used a little bit of internet to understand the use of scan function.
+    while (fscanf(file, "%[^,],%[^,],%d\n", record[a].date, record[a].time, &record[a].steps) == 3) {
+        a++;
     }
 
-    int number_of_records = 60, i;
-    FITNESS_DATA records [] = {}; // Initialisation goes here.
-    for (i = 0; i < number_of_records; i++) {
+    // Always close your file or c will chew your face off.
+    fclose(file);
+
+    // Print the record
+    //for (int i = 0; i < a; i++) {
+        //printf("record %d: Date: %s, Time: %s, Steps: %d\n", i + 1, record[i].date, record[i].time, record[i].steps);
+    //}
+    printf("Number of records in file: %i\n", a);
+
+    //return 0;
+//}
+    for (int i = 0; i < a; i++) {
         printf("-------------\n");
-        printf("Date: %s\n", records[i].date);
-        printf("Time: %s\n", records[i].time);
-        printf("Steps: %u\n", records[i].steps);
+        //printf("Record: %s\n");
+        printf("Date: %s\n", record[i].date);
+        printf("Time: %s\n", record[i].time);
+        printf("Steps: %u\n", record[i].steps);
     }
     printf("-------------\n");
-    fclose(file);
+   
     return 0;
 }
