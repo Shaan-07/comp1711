@@ -53,7 +53,7 @@ int main() {
 FITNESS_DATA record[100];// here we are creating an array Martin sir.
     int a = 0; 
 
-    // I used a little bit of internet to understand the use of scan function.
+    // I used a little bit of internet to understand the use of fscanf function.
     while (fscanf(file, "%[^,],%[^,],%d\n", record[a].date, record[a].time, &record[a].steps) == 3) {
         a++;
     }
@@ -61,14 +61,8 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
     // Always close your file or c will chew your face off.
     fclose(file);
 
-    // Print the record
-    //for (int i = 0; i < a; i++) {
-        //printf("record %d: Date: %s, Time: %s, Steps: %d\n", i + 1, record[i].date, record[i].time, record[i].steps);
-    //}
     printf("Number of records in file: %i\n", a);
 
-    //return 0;
-//}
     for (int i = 0; i < a; i++) {
         printf("-------------\n");
         //printf("Record: %s\n");
