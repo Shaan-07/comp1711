@@ -66,9 +66,9 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
     for (int i = 0; i < a; i++) {
         printf("-------------\n");
         //printf("Record: %s\n");
-        printf("Date: %s\n", record[i].date);
-        printf("Time: %s\n", record[i].time);
-        printf("Steps: %u\n", record[i].steps);
+        printf("%s/", record[i].date);
+        printf("%s/", record[i].time);
+        printf("%u\n", record[i].steps);
     }
     printf("-------------\n");
    
