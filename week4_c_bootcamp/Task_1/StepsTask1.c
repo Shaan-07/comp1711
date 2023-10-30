@@ -53,25 +53,27 @@ int main() {
 FITNESS_DATA record[100];// here we are creating an array Martin sir.
     int a = 0; 
 
-    //for (int i = 0; i < 3; i++) {
-        //char b[60];
-        //if (fgets(b, sizeof(b), file) == NULL) {
-            //break; 
-        //}
-        //printf("Line %d: %s", i + 1, b);
-    //}
+    int buffer_size = 100;//this part was also taken from read_from_file.c done in lab session and also available on minerva.
+    char line[buffer_size];
+    while (fgets(line, buffer_size, file) != NULL) {
+    
 
-    // I used a little bit of internet to understand the use of fscanf function.
-    while (fscanf(file, "%[^,],%[^,],%d\n", record[a].date, record[a].time, &record[a].steps) == 3) {
+        char date[20];//this variable declaring idea code was taken from strsplit.c 
+        char time[20]; 
+        char steps[20];
+        tokeniseRecord(line, ",", date, time, steps);//this statement is taken from functions-ex.c available on minerva.
+        strncpy(record[a].date, date, sizeof(record[a].date));//code idea taken from multiple_records.c on minerva.
+        strncpy(record[a].time, time, sizeof(record[a].time));
+        record[a].steps = atoi(steps);//statement taken from strsplit.c on minerva which was also done in lab session.
+
         a++;
     }
-
     // Always close your file or c will chew your face off.
     fclose(file);
 
    printf("Number of records in file: %i\n", a);
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {//here I am using i<3 in middle but if we use i<a, it prints all the records in file.
         printf("%s/", record[i].date);
         printf("%s/", record[i].time);
         printf("%u\n", record[i].steps);

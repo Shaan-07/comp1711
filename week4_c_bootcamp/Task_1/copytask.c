@@ -49,14 +49,12 @@ int main() {
         perror("");
         return 1;
     }
-    
-FITNESS_DATA record[1000];// here we are creating an array Martin sir.
-    int a = 0; 
 
     int buffer_size = 1000;
     char line_buffer[buffer_size];
-    FITNESS_DATA mytable [400];
     while (fgets(line_buffer, buffer_size, file) != NULL) {
+        FITNESS_DATA record[1000];// here we are creating an array Martin sir.
+        int a = 0; 
         char my_date[11];
         char my_time[6]; // Increased the size by 1 for null terminator
         char my_steps[8];
@@ -67,5 +65,11 @@ FITNESS_DATA record[1000];// here we are creating an array Martin sir.
     }
     // Always close your file or c will chew your face off.
     fclose(file);
+
+    for (int i = 0; i < 3; i++) {
+        printf("%s/", record[i].date);
+        printf("%s/", record[i].time);
+        printf("%u\n", record[i].steps);
+    }
 return 0;
 }
