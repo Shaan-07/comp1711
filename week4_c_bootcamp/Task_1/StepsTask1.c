@@ -54,13 +54,13 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
     int a = 0; 
 
     int buffer_size = 100;//this part was also taken from read_from_file.c done in lab session and also available on minerva.
-    char line[buffer_size];
-    while (fgets(line, buffer_size, file) != NULL) {
+    char  line_buffer[buffer_size];
+    while (fgets( line_buffer, buffer_size, file) != NULL) {
         
-        char date[20];//this variable declaring idea code was taken from strsplit.c 
-        char time[20]; 
-        char steps[20];
-        tokeniseRecord(line, ",", date, time, steps);//this statement is taken from functions-ex.c available on minerva.
+        char date[11];//this variable declaring idea code was taken from strsplit.c 
+        char time[6]; 
+        char steps[10];
+        tokeniseRecord( line_buffer, ",", date, time, steps);//this statement is taken from functions-ex.c available on minerva.
         strncpy(record[a].date, date, sizeof(record[a].date));//code idea taken from multiple_records.c on minerva.
         strncpy(record[a].time, time, sizeof(record[a].time));
         record[a].steps = atoi(steps);//statement taken from strsplit.c on minerva which was also done in lab session.
