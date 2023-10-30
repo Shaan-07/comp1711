@@ -9,31 +9,63 @@ typedef struct {
 	int steps;
 } FITNESS_DATA;
 
+// Define any additional variables here
+
+
+
+// This is your helper function. Do not change it in any way.
+// Inputs: character array representing a row; the delimiter character
+// Ouputs: date character array; time character array; steps character array
+void tokeniseRecord(const char *input, const char *delimiter,
+                    char *date, char *time, char *steps) {
+    // Create a copy of the input string as strtok modifies the string
+    char *inputCopy = strdup(input);
+    
+    // Tokenize the copied string
+    char *token = strtok(inputCopy, delimiter);
+    if (token != NULL) {        strcpy(date, token);
+    }
+    
+    token = strtok(NULL, delimiter);
+    if (token != NULL) {
+        strcpy(time, token);
+    }
+    
+    token = strtok(NULL, delimiter);
+    if (token != NULL) {
+        strcpy(steps, token);
+    }
+    
+    // Free the duplicated string
+    free(inputCopy);
+
+}
+
+// Complete the main function
 int main() {
-    // Open the CSV file for reading
-    FILE* file = fopen("FitnessData_2023.csv", "r");
+    char filename[] = "FitnessData_2023.csv";//code idea from read_from_file.c code done in lab session.
+    FILE *file = fopen(filename, "r");// or "a", "w+", "a+", "r+"
     if (file == NULL) {
-        printf("Failed to open the file.\n");
+        perror("");
         return 1;
     }
+    
+FITNESS_DATA record[1000];// here we are creating an array Martin sir.
+    int a = 0; 
 
-    // Define an array to store the data
-    FITNESS_DATA record[100]; // Assuming a maximum of 100 record in the CSV
+    int buffer_size = 1000;
+    char line_buffer[buffer_size];
+    FITNESS_DATA mytable [400];
+    while (fgets(line_buffer, buffer_size, file) != NULL) {
+        char my_date[11];
+        char my_time[6]; // Increased the size by 1 for null terminator
+        char my_steps[8];
+        tokeniseRecord(line_buffer,",",my_date, my_time, my_steps);
+    
+    
 
-    int count = 0; // Counter for the number of records read
-
-    // Read and store data from the CSV
-    while (fscanf(file, "%19[^,],%19[^,],%d\n", record[count].date, &record[count].time, record[count].steps) == 3) {
-        count++;
     }
-
-    // Close the file
+    // Always close your file or c will chew your face off.
     fclose(file);
-
-    // Print the data
-    for (int i = 0; i < count; i++) {
-        printf("record %d: date: %s, time: %s, steps: %u\n", i + 1, record[i].date, record[i].time, record[i].steps);
-    }
-
-    return 0;
+return 0;
 }
