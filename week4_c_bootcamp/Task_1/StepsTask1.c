@@ -53,6 +53,14 @@ int main() {
 FITNESS_DATA record[100];// here we are creating an array Martin sir.
     int a = 0; 
 
+    //for (int i = 0; i < 3; i++) {
+        //char b[60];
+        //if (fgets(b, sizeof(b), file) == NULL) {
+            //break; 
+        //}
+        //printf("Line %d: %s", i + 1, b);
+    //}
+
     // I used a little bit of internet to understand the use of fscanf function.
     while (fscanf(file, "%[^,],%[^,],%d\n", record[a].date, record[a].time, &record[a].steps) == 3) {
         a++;
@@ -63,9 +71,8 @@ FITNESS_DATA record[100];// here we are creating an array Martin sir.
 
     printf("Number of records in file: %i\n", a);
 
-    for (int i = 0; i < a; i++) {
+    for (int i = 0; i < 3; i++) {
         printf("-------------\n");
-        //printf("Record: %s\n");
         printf("%s/", record[i].date);
         printf("%s/", record[i].time);
         printf("%u\n", record[i].steps);
