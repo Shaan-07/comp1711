@@ -21,15 +21,28 @@ int main()
     int counter = 0;
     float mean = 0;
     float lowest = 0;
+    float highest = 0;
+    char Month;
 
-    while (1)
-    {
-        FILE *input = fopen(filename, "r");
+            FILE *input = fopen(filename, "r");
         if (!input)
         {
             printf("Error: File could not be opened\n");
             return 1;
         }
+
+                        while (fgets(line, buffer_size, input))
+                    {
+                        // split up the line and store it in the right place
+                        // using the & operator to pass in a pointer to the bloodIron so it stores it
+                        tokeniseRecord(line, ",", daily_readings[counter].date, &daily_readings[counter].bloodIron);
+                        counter++;
+                    }
+                    fclose(input);
+
+    while (1)
+    {
+
 
         printf("A: View all your blood iron levels\n");                       // BRONZE
         printf("B: View your average blood iron level\n");                    // BRONZE
@@ -54,66 +67,54 @@ int main()
         // this allows for either capital or lower case
         case 'A':
         case 'a':
-            counter = 0;
-            while (fgets(line, buffer_size, input))
-            {
-                // split up the line and store it in the right place
-                // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", daily_readings[counter].date, &daily_readings[counter].bloodIron);
-                counter++;
-            }
+
             for (int i = 0; i < counter; i++)
             {
                 printf("%s - Blood iron: %.1f\n", daily_readings[i].date, daily_readings[i].bloodIron);
             }
-            fclose(input);
             break;
 
         case 'B':
         case 'b':
-            counter = 0;
-            while (fgets(line, buffer_size, input))
+
+            for (int i = 0; i < counter; i++)
             {
-                // split up the line and store it in the right place
-                // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", daily_readings[counter].date, &daily_readings[counter].bloodIron);
-                mean += daily_readings[counter].bloodIron;
-                counter++;
+                mean += daily_readings[i].bloodIron;
             }
             mean /= counter;
             printf("Your average blood iron was %.2f\n", mean);
-            fclose(input);
+            
             break;
 
         case 'C':
         case 'c':
-            counter = 0;
-            while (fgets(line, buffer_size, input))
-            {
-                // split up the line and store it in the right place
-                // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", daily_readings[counter].date, &daily_readings[counter].bloodIron);
-                lowest += daily_readings[counter].bloodIron;
-                counter++;
-            }
-            lowest = daily_readings[0];
-            int n = sizeof(daily_readings)/sizeof(daily_readings[0]);
-            for(int i = 0; i<n; i++) {
-                if (daily_readings[i] < lowest){
-                    lowest = daily_readings[i];                }
+    
+            lowest = daily_readings[0].bloodIron;
+    
+            for(int i = 0; i < counter; ++i) {
+                if (daily_readings[i].bloodIron < lowest){
+                    lowest = daily_readings[i].bloodIron;                }
             }
             printf("Your lowest blood iron was %.2f\n", lowest);
-            fclose(input);
             break;
 
         case 'D':
         case 'd':
-            return 0;
+            
+            highest = daily_readings[100].bloodIron;
+    
+            for(int i = 0; i < counter; ++i) {
+                if (daily_readings[i].bloodIron > highest){
+                    highest = daily_readings[i].bloodIron;                }
+            }
+            printf("Your highest blood iron was %.2f\n", highest);
             break;
 
         case 'E':
         case 'e':
-            return 0;
+            printf("Please enter the first 3 Letter of the month:\n");
+            printf("NOTE: THE LETTERS MUST BE CAPITAL\n");
+            scanf("%s\n", &Month);
             break;
 
         case 'F':
