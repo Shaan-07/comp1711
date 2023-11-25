@@ -33,7 +33,7 @@ int main() {
     char filename[buffer_size];
     char choice;
     int counter = 0;
-    int mean = 0;
+    //int mean = 0;
     FILE *input = NULL; // File pointer is initialized to NULL
 
     while (1) {
@@ -84,6 +84,95 @@ int main() {
                 break;
 
             // Add other cases for menu options 'C' to 'G' and 'Q' as needed
+            case 'C':
+            case 'c':
+                if (counter > 0) {
+                    int minStepsIndex = 0;
+                    for (int i = 1; i < counter; i++) {
+                        if (record[i].steps < record[minStepsIndex].steps) {
+                            minStepsIndex = i;
+                        }
+                    }
+                    printf("Date and time of the timeslot with the fewest steps: %s %s\n", record[minStepsIndex].date, record[minStepsIndex].time);
+                } else {
+                    printf("No records available.\n");
+                }
+                break;
+
+            case 'D':
+            case 'd':
+                if (counter > 0) {
+                    int maxStepsIndex = 0;
+                    for (int i = 1; i < counter; i++) {
+                        if (record[i].steps > record[maxStepsIndex].steps) {
+                            maxStepsIndex = i;
+                        }
+                    }
+                    printf("Date and time of the timeslot with the highest number of steps: %s %s\n", record[maxStepsIndex].date, record[maxStepsIndex].time);
+                } else {
+                    printf("No records available.\n");
+                }
+                break;
+
+            case 'E':
+            case 'e':
+                if (counter > 0) {
+                    double mean = 0.0;
+                    for (int i = 0; i < counter; i++) {
+                        mean += record[i].steps;
+                    }
+                    mean /= counter;
+
+                    // Check for fractional part
+                    int roundedMean = (mean - (int)mean) > 0 ? (int)mean + 1 : (int)mean;
+
+                    printf("Mean step count of the records: %d\n", roundedMean);
+                } else {
+                    printf("No records available.\n");
+                }
+                break;
+
+            case 'F':
+case 'f':
+    if (counter > 0) {
+        int longestPeriodStart = -1;
+        int longestPeriodEnd = -1;
+        int currentPeriodStart = -1;
+
+        for (int i = 0; i < counter; i++) {
+            if (record[i].steps > 500) {
+                if (currentPeriodStart == -1) {
+                    currentPeriodStart = i;
+                }
+            } else {
+                if (currentPeriodStart != -1) {
+                    // Check if the current period is longer than the longest recorded
+                    if ((longestPeriodStart == -1) || (i - currentPeriodStart > longestPeriodEnd - longestPeriodStart)) {
+                        longestPeriodStart = currentPeriodStart;
+                        longestPeriodEnd = i;
+                    }
+                    currentPeriodStart = -1;
+                }
+            }
+        }
+
+        // Check if the last period is longer than the longest recorded
+        if ((currentPeriodStart != -1) && (counter - currentPeriodStart > longestPeriodEnd - longestPeriodStart)) {
+            longestPeriodStart = currentPeriodStart;
+            longestPeriodEnd = counter;
+        }
+
+        if (longestPeriodStart != -1) {
+            printf("Longest period start: %s %s\n", record[longestPeriodStart].date, record[longestPeriodStart].time);
+            printf("Longest period end: %s %s\n", record[longestPeriodEnd - 1].date, record[longestPeriodEnd - 1].time);
+        } else {
+            printf("No period found where the step count is above 500.\n");
+        }
+    } else {
+        printf("No records available.\n");
+    }
+    break;
+
 
             case 'Q':
             case 'q':
