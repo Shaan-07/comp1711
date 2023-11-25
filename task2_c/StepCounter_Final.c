@@ -94,8 +94,8 @@ int main() {
     {
 
 
-        printf("A: Specify the filename to be imported\n");                       // BRONZE
-        printf("B: Display the total number of records in the file\n");           // BRONZE
+        printf("A: Specify the filename to be imported - you need to check that the file opened correctly.\n");
+        printf("B: Display the total number of records in the file\n");
         printf("C: View your lowest blood iron level\n");                     // SILVER
         printf("D: View your highest blood iron level\n");                    // SILVER
         printf("E: View the blood iron levels for a specific month\n");       // SILVER/GOLD
@@ -118,10 +118,21 @@ int main() {
         case 'A':
         case 'a':
 
-            for (int i = 0; i < counter; i++)
-            {
-                printf("%s - steps: %u\n", record[i].date,record[i].steps);
-            }
+            //for (int i = 0; i < counter; i++)
+            //{
+                //printf("%s - steps: %u\n", record[i].date,record[i].steps);
+            //}
+             printf("Input filename: ");
+
+             fgets(line, buffer_size, stdin);
+             sscanf(line, " %s ", filename);
+
+              FILE *input = fopen(filename, "r");
+                    if (!input)
+                    {
+                         printf("Error: File could not be opened\n");
+                         return 1;
+                    }
             break;
 
         case 'B':
@@ -133,7 +144,7 @@ int main() {
             //}
             //mean /= counter;
             //printf("Your average steps were %u\n", mean);
-            printf("Number of records in file: %i\n", counter);
+            printf("Total records: %i\n", counter);
             break;
         }
     return 0;

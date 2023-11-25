@@ -1,75 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "FitnessDataStruct.h"
 
-// Define an appropriate struct
-typedef struct {
-	char date[11];
-	char time[6];
-	int steps;
-} FITNESS_DATA;
+// Struct moved to header file
 
 // Define any additional variables here
-
-
+// Global variables for filename and FITNESS_DATA array
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
-// Ouputs: date character array; time character array; steps character array
+// Outputs: date character array; time character array; steps character array
 void tokeniseRecord(const char *input, const char *delimiter,
                     char *date, char *time, char *steps) {
     // Create a copy of the input string as strtok modifies the string
     char *inputCopy = strdup(input);
-    
+
     // Tokenize the copied string
     char *token = strtok(inputCopy, delimiter);
-    if (token != NULL) {        strcpy(date, token);
+    if (token != NULL) {
+        strcpy(date, token);
     }
-    
+
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(time, token);
     }
-    
+
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(steps, token);
     }
-    
+
     // Free the duplicated string
     free(inputCopy);
-
 }
 
 // Complete the main function
 int main() {
-    char filename[] = "FitnessData_2023.csv";//code idea from read_from_file.c code done in lab session.
-    FILE *file = fopen(filename, "r");// or "a", "w+", "a+", "r+"
-    if (file == NULL) {
-        perror("");
-        return 1;
+    FITNESS_DATA record[100];
+
+    char line[buffer_size];
+    char filename[buffer_size] = "";  // Initialize filename here
+
+    char choice;
+    int counter = 0;
+    int mean = 0;
+
+    while (1) {
+        printf("A: Specify the filename to be imported - you need to check that the file opened correctly.\n");
+        printf("B: Display the total number of records in the file\n");
+        printf("C: View your lowest blood iron level\n");  // SILVER
+        printf("D: View your highest blood iron level\n"); // SILVER
+        printf("E: View the blood iron levels for a specific month\n"); // SILVER/GOLD
+        printf("F: See some additional statistics about your iron levels\n"); // GOLD - see readme.md
+        printf("G: Generate a graph of your iron levels\n"); // GOLD/PLATINUM - see readme.md
+        printf("Q: Exit the program\n");
+
+        // get the next character typed in and store in the 'choice'
+        choice = getchar();
+
+        // this gets rid of the newline character which the user will enter
+        // as otherwise this will stay in the stdin and be read next time
+        while (getchar() != '\n');
+
+        // switch statement to control the menu.
+        switch (choice) {
+            // this allows for either capital or lower case
+            case 'A':
+            case 'a':
+                printf("Input filename: ");
+                fgets(line, buffer_size, stdin);
+                sscanf(line, " %s ", filename);
+
+                FILE *input = fopen(filename, "r");
+                if (!input) {
+                    printf("Error: File could not be opened\n");
+                    return 1;
+                }
+                break;
+
+            case 'B':
+            case 'b':
+                printf("Total records: %i\n", counter);
+                break;
+        }
     }
 
-    int buffer_size = 1000;
-    char line_buffer[buffer_size];
-    while (fgets(line_buffer, buffer_size, file) != NULL) {
-        FITNESS_DATA record[1000];// here we are creating an array Martin sir.
-        int a = 0; 
-        char my_date[11];
-        char my_time[6]; // Increased the size by 1 for null terminator
-        char my_steps[8];
-        tokeniseRecord(line_buffer,",",my_date, my_time, my_steps);
-    
-    
-
-    }
-    // Always close your file or c will chew your face off.
-    fclose(file);
-
-    for (int i = 0; i < 3; i++) {
-        printf("%s/", record[i].date);
-        printf("%s/", record[i].time);
-        printf("%u\n", record[i].steps);
-    }
-return 0;
+    return 0;
 }
+
