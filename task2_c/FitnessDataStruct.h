@@ -8,7 +8,7 @@
 #include <math.h>
 
 // declaring this value so I can use it in different places
-#define buffer_size 100
+#define buffer_size 1000
 
 /**
  * @brief Struct to hold each fitness record, contains the date as a string

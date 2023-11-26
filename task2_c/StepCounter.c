@@ -41,7 +41,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-    FITNESS_DATA record[100];
+    FITNESS_DATA record[1000];
     char line[buffer_size];
     char filename[buffer_size];
     char choice;
@@ -177,10 +177,8 @@ int main() {
 
             case 'Q':
             case 'q':
-                if (input != NULL) {
-                    fclose(input); // Close the file before exiting
-                }
                 return 0;
+                break;
         }
     }
     return 0;
