@@ -39,12 +39,11 @@ int main() {
     while (1) {
         printf("A: Specify the filename to be imported - you need to check that the file opened correctly.\n");
         printf("B: Display the total number of records in the file\n");
-        printf("C: View your lowest blood iron level\n");                     
-        printf("D: View your highest blood iron level\n");                    
-        printf("E: View the blood iron levels for a specific month\n");       
-        printf("F: See some additional statistics about your iron levels\n"); 
-        printf("G: Generate a graph of your iron levels\n");                  
-        printf("Q: Exit the program\n");
+        printf("C: Find the date and time of the timeslot with the fewest steps\n");                     
+        printf("D: Find the date and time of the timeslot with the largest number of steps\n");                    
+        printf("E: Find the mean step count of all the records in the file\n");       
+        printf("F: Find the longest continuous period where the step count is above 500 steps\n");                   
+        printf("Q: Exit\n");
 
         choice = getchar();
         while (getchar() != '\n');
@@ -133,8 +132,8 @@ int main() {
                 break;
 
             case 'F':
-case 'f':
-    if (counter > 0) {
+            case 'f':
+        if (counter > 0) {
         int longestPeriodStart = -1;
         int longestPeriodEnd = -1;
         int currentPeriodStart = -1;

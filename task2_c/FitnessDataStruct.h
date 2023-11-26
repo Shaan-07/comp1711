@@ -60,16 +60,5 @@ int read_file(FILE *inputFile, FITNESS_DATA *dataArray)
     // to do
 }
 
-/**
- * @brief Checks that there was data for each part of each reading in the file
- *
- * @param dataArray The array of data from the file
- * @param numReadings The number of readings in the array
- * @return int Return 0 if there are no errors, 1 if you find an error.
- */
-int record_checker(FITNESS_DATA *dataArray, int numReadings)
-{
-    // to do
-}
 
 #endif // FITNESS_DATA_STRUCT_H
