@@ -28,5 +28,4 @@ void tokeniseRecord(char *record, char delimiter, char *date, char *time, int *s
 
 int main() {
     
-    
 }
