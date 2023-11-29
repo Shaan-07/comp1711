@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Define the struct for the fitness data
+// Define the struct for the fitness record
 typedef struct {
     char date[11];
     char time[6];
@@ -10,7 +10,7 @@ typedef struct {
 } FitnessData;
 
 // Function to tokenize a record
-void tokeniseRecord(char *record, char delimiter, char *date, char *time, int *steps) {
+int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *steps) {
     char *ptr = strtok(record, &delimiter);
     if (ptr != NULL) {
         strcpy(date, ptr);
@@ -20,16 +20,17 @@ void tokeniseRecord(char *record, char delimiter, char *date, char *time, int *s
             ptr = strtok(NULL, &delimiter);
             if (ptr != NULL) {
                 *steps = atoi(ptr);
+                return 1; // Successfully parsed all three sections
             }
         }
     }
+
+    // If any section is missing, return 0 to indicate incorrect format
+    return 0;
 }
 
 // Function to compare two FitnessData records for sorting in descending order of steps
-//int compareRecords(const void *a, const void *b) {
-    //return ((FitnessData *)b)->steps - ((FitnessData *)a)->steps;
-//}
-int compareRecords(const void *a, const void *b) {
+int NewRecord(const void *a, const void *b) {
     const FitnessData *recordA = (const FitnessData *)a;
     const FitnessData *recordB = (const FitnessData *)b;
 
@@ -43,6 +44,8 @@ int compareRecords(const void *a, const void *b) {
 
 int main() {
     char filename[100];
+    int count = 0;
+    char line[100];
 
     // Step 1: Ask the user for a filename
     printf("Enter filename: ");
@@ -56,28 +59,31 @@ int main() {
         return 1;
     }
 
-    // Read data into a fixed-size array
-    #define MAX_RECORDS 1000
-    FitnessData data[MAX_RECORDS];
-    int count = 0;
+    // Read record into a fixed-size array
+    #define buffer_size 1000
+    FitnessData record[buffer_size];
 
-    char line[100];
     while (fgets(line, sizeof(line), file) != NULL) {
-        if (count < MAX_RECORDS) {
-            tokeniseRecord(line, ',', data[count].date, data[count].time, &data[count].steps);
+        if (count < buffer_size) {
+            if (!tokeniseRecord(line, ',', record[count].date, record[count].time, &record[count].steps)) {
+                printf("Error: invalid format\n");
+                fclose(file);
+                return 1;
+            }
             count++;
         } else {
             printf("Error: too many records in the file\n");
-            break;
+            fclose(file);
+            return 1;
         }
     }
 
     fclose(file);
 
-    // Step 3: Sort the data in descending order of steps
-    qsort(data, count, sizeof(FitnessData), compareRecords);
+    // Step 3: Sort the record in descending order of steps
+    qsort(record, count, sizeof(FitnessData), NewRecord);
 
-    // Step 4: Write out the sorted data file
+    // Step 4: Write out the sorted record file
     strcat(filename, ".tsv");
     file = fopen(filename, "w");
     if (file == NULL) {
@@ -86,10 +92,11 @@ int main() {
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(file, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
+        fprintf(file, "%s\t%s\t%d\n", record[i].date, record[i].time, record[i].steps);
     }
 
     fclose(file);
 
     return 0;
 }
+
