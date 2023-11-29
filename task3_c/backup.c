@@ -18,28 +18,28 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
         if (ptr != NULL) {
             strcpy(time, ptr);
             ptr = strtok(NULL, &delimiter);
-            if (ptr != NULL && sscanf(ptr, "%d", steps) == 1) {
-                return 1; // Valid record
+            if (ptr != NULL) {
+                *steps = atoi(ptr);
+                return 1; //this checks for that all the sections are present
             }
         }
     }
 
-    // Invalid record (missing section or non-integer steps)
+    //if any section is missing, return 0 and exit
     return 0;
 }
 
-
-// Function to compare two FitnessData records for sorting in descending order of steps
-int compareRecords(const void *a, const void *b) {
+//this function is used compare records for sorting in descending order of steps
+int NewRecord(const void *a, const void *b) {
     const FitnessData *recordA = (const FitnessData *)a;
     const FitnessData *recordB = (const FitnessData *)b;
 
-    // Check for invalid steps values
-    if (recordA->steps < 0 || recordB->steps < 0) {
-        return 0; // Invalid record
+    for (int i = 0; i < sizeof(FitnessData) / sizeof(int); i++) {
+        if (recordB->steps != recordA->steps) {
+            return recordB->steps - recordA->steps;
+        }
     }
-
-    return (recordB->steps > recordA->steps) - (recordB->steps < recordA->steps);
+    return 0;
 }
 
 int main() {
@@ -47,7 +47,7 @@ int main() {
     int count = 0;
     char line[100];
 
-    // Asking for user input
+    //asking for user input
     printf("Enter filename: ");
     scanf("%s", filename);
 
@@ -57,27 +57,28 @@ int main() {
         return 1;
     }
 
-    // Checking if the file is empty or not
+    //checking if the file is empty or not
     if (fgets(line, sizeof(line), file) == NULL) {
         printf("Error: empty file\n");
         fclose(file);
         return 1;
     }
 
-    // Reopen the file
     fclose(file);
+
+    //reoprn the file
     file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error: invalid file\n");
         return 1;
     }
 
-    // Read record into a fixed-size array
+    //read record into a fixed-size array
     #define buffer_size 1000
     FitnessData record[buffer_size];
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        if (count < buffer_size) { // Checks for invalid format
+        if (count < buffer_size) {//checks for invalid format
             if (!tokeniseRecord(line, ',', record[count].date, record[count].time, &record[count].steps)) {
                 printf("Error: invalid format\n");
                 fclose(file);
@@ -92,10 +93,10 @@ int main() {
 
     fclose(file);
 
-    // Sort the record in descending order of steps
-    qsort(record, count, sizeof(FitnessData), compareRecords);
+    //sort the record in descending order of steps(used internet for this method)
+    qsort(record, count, sizeof(FitnessData), NewRecord);
 
-    // Outputting data to a new file
+    //outputting data in new file
     strcat(filename, ".tsv");
     file = fopen(filename, "w");
     if (file == NULL) {
@@ -111,4 +112,3 @@ int main() {
 
     return 0;
 }
-
